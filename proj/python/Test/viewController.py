@@ -62,7 +62,7 @@ class ViewController(QMainWindow, form_class):
         # Qt Trigger
         self.pushButton.clicked.connect(self.getDatas)
 
-
+##
     def event_connect(self, nErrCode):
         if nErrCode == 0:
             self.label.setText("로그인 성공")
