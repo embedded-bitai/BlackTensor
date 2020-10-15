@@ -27,3 +27,13 @@ class DataModel:
 
            # print("userName: " + str(userName))
 ##
+
+    class StockTrdata:
+        def __init__(self, stockName, stockCode, cTransactionVolume, openingPrice, currentPrice, stockPer, stockPbr):
+            self.stockName = stockName
+            self.stockCode = stockCode
+            self.cTransactionVolume = cTransactionVolume
+            self.openingPrice = openingPrice
+            self.currentPrice = currentPrice
+            self.stockPer = stockPer
+            self.stockPbr = stockPbr

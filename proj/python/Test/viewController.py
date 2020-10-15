@@ -56,12 +56,16 @@ class ViewController(QMainWindow, form_class):
         # 키움 Open API Trigger
         self.kiwoom.OnReceiveTrData.connect(self.receive_trdata)
         self.kiwoom.OnEventConnect.connect(self.event_connect)
+
         # UI event Trigger
         self.searchItemButton.clicked.connect(self.searchItem)
 
         # Qt Trigger
+        self.kiwoom.OnReceiveTrData.connect(self.get_stock_trdata)
         self.pushButton.clicked.connect(self.getDatas)
-
+        #
+        self.searchButton.clicked.connect(self.btn1_clicked)
+        #
 ##
     def event_connect(self, nErrCode):
         if nErrCode == 0:
@@ -305,21 +309,67 @@ class ViewController(QMainWindow, form_class):
                 self.listWidget.addItem(QListWidgetItem("종목 명: " + item.itemName))
                 break
     #
-    # def btn1_clicked(self):
-    #     code = self.code_edit.text()
-    #     self.text_edit.append("종목코드: " + code)
-    #
-    #
-    #     # SetInputValue
-    #     self.kiwoom.dynamicCall("SetInputValue(QString, QString)", "종목코드", code)
-    #
-    #     # CommRqData
-    #     self.kiwoom.dynamicCall("CommRqData(QString, QString, int, QString)", "opt10001_req", "opt10001", 0, "0101")
-    #
-    # def receive_stock_trdata(self, screen_no, rqname, trcode, recordname, prev_next, data_len, err_code, msg1, msg2):
-    #     if rqname == "opt10001_req":
-    #         name = self.kiwoom.dynamicCall("CommGetData(QString, QString, QString, int, QString)", trcode, "", rqname, 0, "종목명")
-    #         volume = self.kiwoom.dynamicCall("CommGetData(QString, QString, QString, int, QString)", trcode, "", rqname, 0, "거래량")
-    #
-    #         self.text_edit.append("종목명: " + name.strip())
-    #         self.text_edit.append("거래량: " + volume.strip())
+    def btn1_clicked(self):
+        stockCode = self.textEdit2.toPlainText()
+        # self.text_edit.append("종목코드: " + code)
+        self.listWidget.addItem(QListWidgetItem("입력 종목 명: " + stockCode))
+
+        # SetInputValue
+        self.kiwoom.dynamicCall("SetInputValue(QString, QString)", "종목코드", str(stockCode))
+
+        # CommRqData
+        self.kiwoom.dynamicCall("CommRqData(QString, QString, int, QString)", "opt10001_req", "opt10001", 0, "0101")
+
+    def get_stock_trdata(self, screen_no, rqname, trcode, recordname, prev_next, data_len, err_code, msg1, msg2):
+        if trcode == "opt10001":
+            if rqname == "opt10001_req":
+
+                stockName = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
+                                                    recordname, 0, "종목명")
+                stockCode = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
+                                                    recordname, 0, "종목코드")
+                cTransactionVolume = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
+                                                    recordname, 0, "거래량")
+                openingPrice = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
+                                                    recordname, 0, "시가")
+                currentPrice = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
+                                                    recordname, 0, "현재가")
+                stockPer = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
+                                                    recordname, 0, "PER")
+                stockPbr = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
+                                                    recordname, 0, "PBR")
+
+                self.myModel.myStockTrdata = dm.DataModel.StockTrdata(stockName, stockCode, cTransactionVolume,
+                                                                      openingPrice, currentPrice, stockPer, stockPbr)
+
+                print("주식 종목명: " + str(self.myModel.myStockTrdata.stockName))
+                print("주식 종목코드: " + str(self.myModel.myStockTrdata.stockCode))
+                print("거래량: " + str(self.myModel.myStockTrdata.cTransactionVolume))
+                print("시가: " + str(self.myModel.myStockTrdata.openingPrice))
+                print("현재가: " + str(self.myModel.myStockTrdata.currentPrice))
+                print("PER: " + str(self.myModel.myStockTrdata.stockPer))
+                print("PBR: " + str(self.myModel.myStockTrdata.stockPbr))
+
+                url = "http://localhost:8000/wish/add"
+                payload = {'stockCode' : stockName, 'stockName' : stockName, 'cTransactionVolume' : cTransactionVolume,
+                           'openingPrice' : openingPrice, 'currentPrice' : currentPrice,
+                           'stockPer' : stockPer, 'stockPbr' : stockPbr}
+                r = requests.post(url, data=json.dumps(payload))
+                print(r.status_code)
+                print(r.text)
+                # self.text_edit.append("종목명: " + stockName.strip())
+                # self.text_edit.append("종목코드: " + stockCode.strip())
+                # self.text_edit.append("거래량: " + cTransactionVolume.strip())
+                # self.text_edit.append("시가: " + openingPrice.strip())
+                # self.text_edit.append("종가: " + currentPrice.strip())
+                # self.text_edit.append("PER: " + stockPer.strip())
+                # self.text_edit.append("PBR: " + stockPbr.strip())
+                # self.listWidget.addItem(QListWidgetItem("주식 종목명: " + stockName))
+                # self.listWidget.addItem(QListWidgetItem("주식 종목코드: " + stockCode))
+                # self.listWidget.addItem(QListWidgetItem("주식 거래량: " + cTransactionVolume))
+                # self.listWidget.addItem(QListWidgetItem("주식 시가: " + openingPrice))
+                # self.listWidget.addItem(QListWidgetItem("주식 종가: " + currentPrice))
+                # self.listWidget.addItem(QListWidgetItem("주식 PER: " + stockPer))
+                # self.listWidget.addItem(QListWidgetItem("주식 PBR: " + stockPbr))
+
+
