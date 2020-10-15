@@ -333,7 +333,7 @@ class ViewController(QMainWindow, form_class):
                 openingPrice = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
                                                     recordname, 0, "시가")
                 currentPrice = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
-                                                    recordname, 0, "현재가")
+                                                    recordname, 0, "현재가").replace("-","")
                 stockPer = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
                                                     recordname, 0, "PER")
                 stockPbr = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
@@ -350,6 +350,14 @@ class ViewController(QMainWindow, form_class):
                 print("PER: " + str(self.myModel.myStockTrdata.stockPer))
                 print("PBR: " + str(self.myModel.myStockTrdata.stockPbr))
 
+                self.listWidget.addItem(QListWidgetItem("주식 종목명:" + stockName))
+                self.listWidget.addItem(QListWidgetItem("주식 종목코드:" + stockCode))
+                self.listWidget.addItem(QListWidgetItem("주식 거래량:" + cTransactionVolume))
+                self.listWidget.addItem(QListWidgetItem("주식 시가:" + openingPrice))
+                self.listWidget.addItem(QListWidgetItem("주식 현재가:" + currentPrice))
+                self.listWidget.addItem(QListWidgetItem("주식 PER:" + stockPer))
+                self.listWidget.addItem(QListWidgetItem("주식 PBR:" + stockPbr))
+
                 url = "http://localhost:8000/wish/add"
                 payload = {'stockCode' : stockName, 'stockName' : stockName, 'cTransactionVolume' : cTransactionVolume,
                            'openingPrice' : openingPrice, 'currentPrice' : currentPrice,
@@ -357,19 +365,7 @@ class ViewController(QMainWindow, form_class):
                 r = requests.post(url, data=json.dumps(payload))
                 print(r.status_code)
                 print(r.text)
-                # self.text_edit.append("종목명: " + stockName.strip())
-                # self.text_edit.append("종목코드: " + stockCode.strip())
-                # self.text_edit.append("거래량: " + cTransactionVolume.strip())
-                # self.text_edit.append("시가: " + openingPrice.strip())
-                # self.text_edit.append("종가: " + currentPrice.strip())
-                # self.text_edit.append("PER: " + stockPer.strip())
-                # self.text_edit.append("PBR: " + stockPbr.strip())
-                # self.listWidget.addItem(QListWidgetItem("주식 종목명: " + stockName))
-                # self.listWidget.addItem(QListWidgetItem("주식 종목코드: " + stockCode))
-                # self.listWidget.addItem(QListWidgetItem("주식 거래량: " + cTransactionVolume))
-                # self.listWidget.addItem(QListWidgetItem("주식 시가: " + openingPrice))
-                # self.listWidget.addItem(QListWidgetItem("주식 종가: " + currentPrice))
-                # self.listWidget.addItem(QListWidgetItem("주식 PER: " + stockPer))
-                # self.listWidget.addItem(QListWidgetItem("주식 PBR: " + stockPbr))
+
+
 
 
