@@ -331,24 +331,26 @@ class ViewController(QMainWindow, form_class):
                 cTransactionVolume = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
                                                     recordname, 0, "거래량")
                 openingPrice = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
-                                                    recordname, 0, "시가")
+                                                    recordname, 0, "시가").replace("-", "+")
                 currentPrice = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
-                                                    recordname, 0, "현재가").replace("-","")
+                                                    recordname, 0, "현재가").replace("-", "+")
                 stockPer = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
                                                     recordname, 0, "PER")
                 stockPbr = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
                                                     recordname, 0, "PBR")
+                userId = self.kiwoom.dynamicCall("GetLoginInfo(QString)", "USER_ID")
 
                 self.myModel.myStockTrdata = dm.DataModel.StockTrdata(stockName, stockCode, cTransactionVolume,
                                                                       openingPrice, currentPrice, stockPer, stockPbr)
 
                 print("주식 종목명: " + str(self.myModel.myStockTrdata.stockName))
                 print("주식 종목코드: " + str(self.myModel.myStockTrdata.stockCode))
-                print("거래량: " + str(self.myModel.myStockTrdata.cTransactionVolume))
-                print("시가: " + str(self.myModel.myStockTrdata.openingPrice))
-                print("현재가: " + str(self.myModel.myStockTrdata.currentPrice))
-                print("PER: " + str(self.myModel.myStockTrdata.stockPer))
-                print("PBR: " + str(self.myModel.myStockTrdata.stockPbr))
+                # print("거래량: " + str(self.myModel.myStockTrdata.cTransactionVolume))
+                # print("시가: " + str(self.myModel.myStockTrdata.openingPrice))
+                # print("현재가: " + str(self.myModel.myStockTrdata.currentPrice))
+                # print("PER: " + str(self.myModel.myStockTrdata.stockPer))
+                # print("PBR: " + str(self.myModel.myStockTrdata.stockPbr))
+                print("나의 ID: " + userId)
 
                 self.listWidget.addItem(QListWidgetItem("주식 종목명:" + stockName))
                 self.listWidget.addItem(QListWidgetItem("주식 종목코드:" + stockCode))
@@ -359,13 +361,13 @@ class ViewController(QMainWindow, form_class):
                 self.listWidget.addItem(QListWidgetItem("주식 PBR:" + stockPbr))
 
                 url = "http://localhost:8000/wish/add"
-                payload = {'stockCode' : stockName, 'stockName' : stockName, 'cTransactionVolume' : cTransactionVolume,
-                           'openingPrice' : openingPrice, 'currentPrice' : currentPrice,
-                           'stockPer' : stockPer, 'stockPbr' : stockPbr}
-                r = requests.post(url, data=json.dumps(payload))
-                print(r.status_code)
-                print(r.text)
-
-
-
+                headers = {'Content-Type': 'application/json; charset=utf-8'}
+                # payload = {'stockCode' : stockCode, 'stockName' : stockName, 'cTransactionVolume' : cTransactionVolume,
+                #            'openingPrice' : openingPrice, 'currentPrice' : currentPrice,
+                #            'stockPer' : stockPer, 'stockPbr' : stockPbr}
+                payload = {'stockCode' : stockCode, 'stockName' : stockName, 'member' : {'apiId' : userId}}
+                data_tr = json.dumps(payload)
+                res = requests.post(url, headers=headers, data=data_tr)
+                print(res.status_code)
+                print(res.text)
 
