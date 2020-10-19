@@ -29,11 +29,31 @@ class DataModel:
 ##
 
     class StockTrdata:
-        def __init__(self, stockName, stockCode, cTransactionVolume, openingPrice, currentPrice, stockPer, stockPbr):
+        def __init__(self, stockName, stockCode, closingMonth, parValue,
+                  capital, ListedStock, creditRatio, bestYear, lowstYear, marketValue, PER, EPS, ROE, PBR, BPS, take,
+                  operatProfit, netIncome, currentPrice, netChange, fluctuation, volume, TradePrepare):
             self.stockName = stockName
             self.stockCode = stockCode
-            self.cTransactionVolume = cTransactionVolume
-            self.openingPrice = openingPrice
+            self.closingMonth = closingMonth
+            self.parValue = parValue
             self.currentPrice = currentPrice
-            self.stockPer = stockPer
-            self.stockPbr = stockPbr
+            self.capital = capital
+            self.ListedStock = ListedStock
+            self.creditRatio = creditRatio
+            self.bestYear = bestYear
+            self.lowstYear = lowstYear
+            self.marketValue = marketValue
+            self.PER = PER
+            self.EPS = EPS
+            self.ROE = ROE
+            self.PBR = PBR
+            self.BPS = BPS
+            self.take = take
+            self.operatProfit = operatProfit
+            self.netIncome = netIncome
+            self.currentPrice = currentPrice
+            self.netChange = netChange
+            self.fluctuation = fluctuation
+            self.volume = volume
+            self.TradePrepare = TradePrepare
+
