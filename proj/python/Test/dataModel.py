@@ -30,30 +30,40 @@ class DataModel:
 
     class StockTrdata:
         def __init__(self, stockName, stockCode, closingMonth, parValue,
-                  capital, ListedStock, creditRatio, bestYear, lowstYear, marketValue, PER, EPS, ROE, PBR, BPS, take,
-                  operatProfit, netIncome, currentPrice, netChange, fluctuation, volume, TradePrepare):
+                  capital, listedStock, creditRatio, bestYear, lowstYear, marketValue, per, eps, roe, pbr, bps, take,
+                  operatProfit, netIncome, openPrice, highPrice, upperPrice, lowerPrice, standardPrice, exClosingPrice,
+                  exStockAmount, currentPrice, changeSymbol, netChange, fluctuation, volume, tradePrepare):
             self.stockName = stockName
             self.stockCode = stockCode
             self.closingMonth = closingMonth
             self.parValue = parValue
             self.currentPrice = currentPrice
             self.capital = capital
-            self.ListedStock = ListedStock
+            self.listedStock = listedStock
             self.creditRatio = creditRatio
             self.bestYear = bestYear
             self.lowstYear = lowstYear
             self.marketValue = marketValue
-            self.PER = PER
-            self.EPS = EPS
-            self.ROE = ROE
-            self.PBR = PBR
-            self.BPS = BPS
+            self.per = per
+            self.eps = eps
+            self.roe = roe
+            self.pbr = pbr
+            self.bps = bps
             self.take = take
             self.operatProfit = operatProfit
             self.netIncome = netIncome
+
+            self.openPrice = openPrice
+            self.highPrice = highPrice
+            self.upperPrice = upperPrice
+            self.lowerPrice = lowerPrice
+            self.standardPrice = standardPrice
+            self.exClosingPrice = exClosingPrice
+            self.exStockAmount = exStockAmount
             self.currentPrice = currentPrice
+            self.changeSymbol = changeSymbol
             self.netChange = netChange
             self.fluctuation = fluctuation
             self.volume = volume
-            self.TradePrepare = TradePrepare
+            self.tradePrepare = tradePrepare
 

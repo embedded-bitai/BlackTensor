@@ -320,6 +320,8 @@ class ViewController(QMainWindow, form_class):
         # CommRqData
         self.kiwoom.dynamicCall("CommRqData(QString, QString, int, QString)", "opt10001_req", "opt10001", 0, "0101")
 
+        self.kiwoom.dynamicCall("CommRqData(QString, QString, int, QString)", "OPTKWFID", "OPTKWFID_req", 0, "0101")
+
     def get_stock_trdata(self, screen_no, rqname, trcode, recordname, prev_next, data_len, err_code, msg1, msg2):
         if trcode == "opt10001":
             if rqname == "opt10001_req":
@@ -334,75 +336,102 @@ class ViewController(QMainWindow, form_class):
                                                     recordname, 0, "액면가")
                 capital = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
                                                              recordname, 0, "자본금")
-                ListedStock = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
+                listedStock = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
                                                              recordname, 0, "상장주식")
                 creditRatio = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
-                                                             recordname, 0, "신용비율").replace("-", "").replace("+", "")
+                                                             recordname, 0, "신용비율")
                 bestYear = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
-                                                             recordname, 0, "연중최고").replace("-", "").replace("+", "")
+                                                             recordname, 0, "연중최고")
                 lowstYear = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
-                                                             recordname, 0, "연중최저").replace("-", "").replace("+", "")
+                                                             recordname, 0, "연중최저")
                 marketValue = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
-                                                             recordname, 0, "시가총액").replace("-", "").replace("+", "")
-                PER = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
-                                                             recordname, 0, "PER").replace("-", "").replace("+", "")
-                EPS = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
-                                                             recordname, 0, "EPS").replace("-", "").replace("+", "")
-                ROE = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
-                                                             recordname, 0, "ROE").replace("-", "").replace("+", "")
-                PBR = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
-                                                             recordname, 0, "PBR").replace("-", "").replace("+", "")
-                BPS = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
-                                                             recordname, 0, "BPS").replace("-", "").replace("+", "")
+                                                             recordname, 0, "시가총액")
+                per = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
+                                                             recordname, 0, "PER")
+                eps = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
+                                                             recordname, 0, "EPS")
+                roe = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
+                                                             recordname, 0, "ROE")
+                pbr = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
+                                                             recordname, 0, "PBR")
+                bps = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
+                                                             recordname, 0, "BPS")
                 take = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
-                                                    recordname, 0, "매출액").replace("-", "").replace("+", "")
+                                                    recordname, 0, "매출액")
                 operatProfit = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
-                                               recordname, 0, "영업이익").replace("-", "").replace("+", "")
+                                               recordname, 0, "영업이익")
                 netIncome = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
-                                               recordname, 0, "당기순이익").replace("-", "").replace("+", "")
+                                               recordname, 0, "당기순이익")
+                openPrice = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
+                                                    recordname, 0, "시가")
+                highPrice = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
+                                                    recordname, 0, "고가")
+                upperPrice = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
+                                                    recordname, 0, "상한가")
+                lowerPrice = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
+                                                    recordname, 0, "하한가")
+                standardPrice = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
+                                                    recordname, 0, "기준가")
+                exClosingPrice = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
+                                                    recordname, 0, "예상체결가")
+                exStockAmount = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
+                                                         recordname, 0, "예상체결수량")
                 currentPrice = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
-                                               recordname, 0, "현재가").replace("-", "").replace("+", "")
+                                               recordname, 0, "현재가")
+                changeSymbol = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
+                                                    recordname, 0, "대비기호")
                 netChange = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
-                                                    recordname, 0, "전일대비").replace("-", "").replace("+", "")
+                                                    recordname, 0, "전일대비")
                 fluctuation = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
-                                               recordname, 0, "등락율").replace("-", "").replace("+", "")
+                                               recordname, 0, "등락율")
                 volume = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
-                                                      recordname, 0, "거래량").replace("-", "").replace("+", "")
-                TradePrepare = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
-                                                      recordname, 0, "거래대비").replace("-", "").replace("+", "")
+                                                      recordname, 0, "거래량")
+                tradePrepare = self.kiwoom.dynamicCall("GetCommData(QString, QString, int, QString", trcode,
+                                                      recordname, 0, "거래대비")
 
+                # .replace("-", "").replace("+", "")
 
                 #
                 userId = self.kiwoom.dynamicCall("GetLoginInfo(QString)", "USER_ID")
                 #
 
                 self.myModel.myStockTrdata = dm.DataModel.StockTrdata(stockName, stockCode, closingMonth, parValue,
-                  capital, ListedStock, creditRatio, bestYear, lowstYear, marketValue, PER, EPS, ROE, PBR, BPS, take,
-                  operatProfit, netIncome, currentPrice, netChange, fluctuation, volume, TradePrepare)
+                  capital, listedStock, creditRatio, bestYear, lowstYear, marketValue, per, eps, roe, pbr, bps, take,
+                  operatProfit, netIncome, openPrice, highPrice, upperPrice, lowerPrice, standardPrice, exClosingPrice,
+                  exStockAmount, currentPrice, changeSymbol, netChange, fluctuation, volume, tradePrepare)
 
                 print("주식 종목명: " + str(self.myModel.myStockTrdata.stockName))
                 print("주식 종목코드: " + str(self.myModel.myStockTrdata.stockCode))
                 print("결산월: " + str(self.myModel.myStockTrdata.closingMonth))
                 print("액면가: " + str(self.myModel.myStockTrdata.parValue))
                 print("자본금: " + str(self.myModel.myStockTrdata.capital))
-                print("상장주식: " + str(self.myModel.myStockTrdata.ListedStock))
+                print("상장주식: " + str(self.myModel.myStockTrdata.listedStock))
                 print("신용비율: " + str(self.myModel.myStockTrdata.creditRatio))
                 print("연중최고: " + str(self.myModel.myStockTrdata.bestYear))
                 print("연중최저: " + str(self.myModel.myStockTrdata.lowstYear))
                 print("시가총액: " + str(self.myModel.myStockTrdata.marketValue))
-                print("PER: " + str(self.myModel.myStockTrdata.PER))
-                print("EPS: " + str(self.myModel.myStockTrdata.EPS))
-                print("ROE: " + str(self.myModel.myStockTrdata.ROE))
-                print("PBR: " + str(self.myModel.myStockTrdata.PBR))
-                print("BPS: " + str(self.myModel.myStockTrdata.BPS))
+                print("PER: " + str(self.myModel.myStockTrdata.per))
+                print("EPS: " + str(self.myModel.myStockTrdata.eps))
+                print("ROE: " + str(self.myModel.myStockTrdata.roe))
+                print("PBR: " + str(self.myModel.myStockTrdata.pbr))
+                print("BPS: " + str(self.myModel.myStockTrdata.bps))
                 print("매출액: " + str(self.myModel.myStockTrdata.take))
                 print("영업이익: " + str(self.myModel.myStockTrdata.operatProfit))
                 print("당기순이익: " + str(self.myModel.myStockTrdata.netIncome))
+                print("시가: " + str(self.myModel.myStockTrdata.openPrice))
+                print("고가: " + str(self.myModel.myStockTrdata.highPrice))
+                print("상한가: " + str(self.myModel.myStockTrdata.upperPrice))
+                print("하한가: " + str(self.myModel.myStockTrdata.lowerPrice))
+                print("기준가: " + str(self.myModel.myStockTrdata.standardPrice))
+                print("예상체결가: " + str(self.myModel.myStockTrdata.exClosingPrice))
+                print("예상체결수량: " + str(self.myModel.myStockTrdata.exStockAmount))
                 print("현재가: " + str(self.myModel.myStockTrdata.currentPrice))
+                print("대비기호: " + str(self.myModel.myStockTrdata.changeSymbol)) # 2 상승, 5 하락
                 print("전일대비: " + str(self.myModel.myStockTrdata.netChange))
                 print("등락율: " + str(self.myModel.myStockTrdata.fluctuation))
                 print("거래량: " + str(self.myModel.myStockTrdata.volume))
-                print("거래대비: " + str(self.myModel.myStockTrdata.TradePrepare))
+                print("거래대비: " + str(self.myModel.myStockTrdata.tradePrepare))
+
 
                 #
                 print("나의 ID: " + userId)
@@ -413,38 +442,48 @@ class ViewController(QMainWindow, form_class):
                 self.listWidget.addItem(QListWidgetItem("결산월:" + closingMonth))
                 self.listWidget.addItem(QListWidgetItem("액면가:" + parValue))
                 self.listWidget.addItem(QListWidgetItem("자본금:" + capital))
-                self.listWidget.addItem(QListWidgetItem("상장주식:" + ListedStock))
+                self.listWidget.addItem(QListWidgetItem("상장주식:" + listedStock))
                 self.listWidget.addItem(QListWidgetItem("신용비율:" + creditRatio))
                 self.listWidget.addItem(QListWidgetItem("연중최고:" + bestYear))
                 self.listWidget.addItem(QListWidgetItem("연중최저:" + lowstYear))
                 self.listWidget.addItem(QListWidgetItem("시가총액:" + marketValue))
-                self.listWidget.addItem(QListWidgetItem("PER:" + PER))
-                self.listWidget.addItem(QListWidgetItem("EPS:" + EPS))
-                self.listWidget.addItem(QListWidgetItem("ROE:" + ROE))
-                self.listWidget.addItem(QListWidgetItem("PBR:" + PBR))
-                self.listWidget.addItem(QListWidgetItem("BPS:" + BPS))
+                self.listWidget.addItem(QListWidgetItem("PER:" + per))
+                self.listWidget.addItem(QListWidgetItem("EPS:" + eps))
+                self.listWidget.addItem(QListWidgetItem("ROE:" + roe))
+                self.listWidget.addItem(QListWidgetItem("PBR:" + pbr))
+                self.listWidget.addItem(QListWidgetItem("BPS:" + bps))
                 self.listWidget.addItem(QListWidgetItem("매출액:" + take))
                 self.listWidget.addItem(QListWidgetItem("영업이익:" + operatProfit))
                 self.listWidget.addItem(QListWidgetItem("당기순이익:" + netIncome))
+                self.listWidget.addItem(QListWidgetItem("시가:" + openPrice))
+                self.listWidget.addItem(QListWidgetItem("고가:" + highPrice))
+                self.listWidget.addItem(QListWidgetItem("상한가:" + upperPrice))
+                self.listWidget.addItem(QListWidgetItem("하한가:" + lowerPrice))
+                self.listWidget.addItem(QListWidgetItem("기준가:" + standardPrice))
+                self.listWidget.addItem(QListWidgetItem("예상체결가:" + exClosingPrice))
+                self.listWidget.addItem(QListWidgetItem("예상체결량:" + exStockAmount))
                 self.listWidget.addItem(QListWidgetItem("현재가:" + currentPrice))
+                self.listWidget.addItem(QListWidgetItem("대비기호:" + changeSymbol))
                 self.listWidget.addItem(QListWidgetItem("전일대비:" + netChange))
                 self.listWidget.addItem(QListWidgetItem("등락율:" + fluctuation))
                 self.listWidget.addItem(QListWidgetItem("거래량:" + volume))
-                self.listWidget.addItem(QListWidgetItem("거래대비:" + TradePrepare))
+                self.listWidget.addItem(QListWidgetItem("거래대비:" + tradePrepare))
                 #
                 #
-
 
                 url = "http://localhost:8000/wish/add"
                 headers = {'Content-Type': 'application/json; charset=utf-8'}
-                # payload = {'stockCode' : stockCode, 'stockName' : stockName, 'closingMonth' : closingMonth,
-                #            'parValue' : parValue, 'capital' : capital, 'ListedStock' : ListedStock,
-                #            'creditRatio' : creditRatio, 'bestYear' : bestYear, 'lowstYear' : lowstYear,
-                #            'marketValue': marketValue, 'PER': PER, 'EPS': EPS, 'ROE': ROE, 'PBR': PBR, 'BPS': BPS,
-                #            'take': take, 'operatProfit': operatProfit, 'netIncome': netIncome,
-                #            'currentPrice': currentPrice, 'netChange': netChange, 'fluctuation': fluctuation,
-                #            'volume' : volume, 'TradePrepare' : TradePrepare}
-                payload = {'stockCode' : stockCode, 'stockName' : stockName, 'member' : {'apiId' : userId}}
+                payload = {'stockCode' : stockCode, 'stockName' : stockName, 'member' : {'apiId' : userId},
+                           'closingMonth' : closingMonth, 'parValue' : parValue, 'capital' : capital,
+                           'listedStock' : listedStock, 'creditRatio' : creditRatio, 'bestYear' : bestYear,
+                           'lowstYear' : lowstYear, 'marketValue' : marketValue, 'per' : per, 'eps' : eps, 'roe' : roe,
+                           'pbr' : pbr, 'bps' : bps, 'take' : take, 'operatProfit' : operatProfit,
+                           'netIncome' : netIncome, 'openPrice' : openPrice, 'highPrice' : highPrice,
+                           'upperPrice' : upperPrice, 'lowerPrice' : lowerPrice, 'standardPrice' : standardPrice,
+                           'exClosingPrice' : exClosingPrice, 'exStockAmount' : exStockAmount,
+                           'currentPrice': currentPrice, 'netChange': netChange, 'fluctuation': fluctuation,
+                           'volume' : volume, 'tradePrepare' : tradePrepare}
+                # payload = {'stockCode' : stockCode, 'stockName' : stockName, 'member' : {'apiId' : userId}}
                 data_tr = json.dumps(payload)
                 res = requests.post(url, headers=headers, data=data_tr)
                 print(res.status_code)
