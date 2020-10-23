@@ -21,6 +21,11 @@ https://dgkim5360.tistory.com/entry/python-requests
 https://velog.io/@k904808/Fork-%ED%95%9C-Repository-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-%ED%95%98%EA%B8%B0
 ###
 
+### 자동매매 주요 url
+https://m.blog.naver.com/o12486vs2/221956244120
+
+### https://m.blog.naver.com/o12486vs2/221953735309
+
 import dataModel as dm
 import sys
 import datetime
