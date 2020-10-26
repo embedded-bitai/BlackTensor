@@ -10,7 +10,7 @@ import requests
 from bs4 import BeautifulSoup
 from time import sleep
 import re
-#
+
 
 #pyqt
 from PyQt5.QtWidgets import *
