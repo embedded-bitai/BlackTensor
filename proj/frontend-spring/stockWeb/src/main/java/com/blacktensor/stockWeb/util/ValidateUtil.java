@@ -1,9 +1,6 @@
 package com.blacktensor.stockWeb.util;
 
-import com.blacktensor.stockWeb.entity.Member;
-import com.blacktensor.stockWeb.entity.MyPage;
-import com.blacktensor.stockWeb.entity.TradeHistory;
-import com.blacktensor.stockWeb.entity.WishItem;
+import com.blacktensor.stockWeb.entity.*;
 import com.blacktensor.stockWeb.entity.enterpriseData.StockData;
 import com.blacktensor.stockWeb.entity.enterpriseData.StockInfo;
 
@@ -96,6 +93,16 @@ public class ValidateUtil {
            && StringUtil.isNotEmptyString(info.getRoeValue()) && StringUtil.isNotEmptyString(info.getPbrValue())
            && StringUtil.isNotEmptyString(info.getBpsValue()) && StringUtil.isNotEmptyString(info.getTake())
            && StringUtil.isNotEmptyString(info.getNetIncome())){
+            result = true;
+        }
+
+        return result;
+    }
+
+    public static boolean validateStockMappingInfo(StockMapping info){
+        boolean result = false;
+
+        if(info != null && StringUtil.isNotEmptyString(info.getStockName()) && StringUtil.isNotEmptyString(info.getStockCode())){
             result = true;
         }
 

@@ -1,5 +1,6 @@
 package com.blacktensor.stockWeb.controller;
 
+import com.blacktensor.stockWeb.entity.StockMapping;
 import com.blacktensor.stockWeb.entity.enterpriseData.StockAllData;
 import com.blacktensor.stockWeb.entity.enterpriseData.StockData;
 import com.blacktensor.stockWeb.entity.enterpriseData.StockInfo;
@@ -65,16 +66,16 @@ public class StockDataController {
         return new ResponseEntity<String>("Check Stock Info Information", HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/find/data/{stockCode}")
-    public ResponseEntity<List<StockData>> getStockDatas(@PathVariable String stockCode){
+    @GetMapping("/find/data/{stockName}")
+    public ResponseEntity<List<StockData>> getStockDatas(@PathVariable String stockName){
 
-        log.debug("information - code : " + stockCode);
+        log.debug("information - name : " + stockName);
         List<StockData> result = null;
 
         try {
 
-            if(StringUtil.isNotEmptyString(stockCode)){
-                result = service.getStockDatas(stockCode);
+            if(StringUtil.isNotEmptyString(stockName)){
+                result = service.getStockDatas(stockName);
                 return new ResponseEntity<List<StockData>>(result, HttpStatus.OK);
             }
 
@@ -86,15 +87,15 @@ public class StockDataController {
         return new ResponseEntity<List<StockData>>(result, HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/find/info/{stockCode}")
-    public ResponseEntity<List<StockInfo>> getStockInfo(@PathVariable String stockCode){
-        log.debug("information - code : " + stockCode);
+    @GetMapping("/find/info/{stockName}")
+    public ResponseEntity<List<StockInfo>> getStockInfo(@PathVariable String stockName){
+        log.debug("information - name : " + stockName);
         List<StockInfo> result = null;
 
         try {
 
-            if(StringUtil.isNotEmptyString(stockCode)){
-                result = service.getStockInfos(stockCode);
+            if(StringUtil.isNotEmptyString(stockName)){
+                result = service.getStockInfos(stockName);
                 return new ResponseEntity<List<StockInfo>>(result, HttpStatus.OK);
             }
 
@@ -106,15 +107,15 @@ public class StockDataController {
         return new ResponseEntity<List<StockInfo>>(result, HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/find/all/{stockCode}")
-    public ResponseEntity<StockAllData> getStockAllData(@PathVariable String stockCode){
-        log.debug("information - code : " + stockCode);
+    @GetMapping("/find/all/{stockName}")
+    public ResponseEntity<StockAllData> getStockAllData(@PathVariable String stockName){
+        log.debug("information - name : " + stockName);
         StockAllData result = null;
 
         try {
 
-            if(StringUtil.isNotEmptyString(stockCode)){
-                result = service.getStockAllData(stockCode);
+            if(StringUtil.isNotEmptyString(stockName)){
+                result = service.getStockAllData(stockName);
                 return new ResponseEntity<StockAllData>(result, HttpStatus.OK);
             }
 
@@ -125,4 +126,22 @@ public class StockDataController {
 
         return new ResponseEntity<StockAllData>(result, HttpStatus.BAD_REQUEST);
     }
+
+    @PostMapping("/add/mapping")
+    public ResponseEntity<String> createMappingData (@Validated @RequestBody StockMapping data){
+        log.debug("information - data : " + data);
+
+        if(ValidateUtil.validateStockMappingInfo(data)){
+            try {
+                service.insertStockMapping(data);
+                return new ResponseEntity<String>("Stock Mapping Data Create Success", HttpStatus.OK);
+            } catch (Exception e){
+                log.debug(e.getMessage());
+                return new ResponseEntity<String>("Stock Mapping Data Create Fail", HttpStatus.OK);
+            }
+        }
+
+        return new ResponseEntity<String>("Check Mapping data", HttpStatus.BAD_REQUEST);
+    }
+
 }
