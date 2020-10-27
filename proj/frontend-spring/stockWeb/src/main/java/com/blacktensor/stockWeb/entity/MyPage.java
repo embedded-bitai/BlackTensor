@@ -19,6 +19,9 @@ public class MyPage {
     @Column(name = "pageNo")
     private Long pageNo;
 
+    @Column(nullable = true, length = 20)
+    private String name;
+
     @Column(nullable = true, length = 1)
     private String gender;
 

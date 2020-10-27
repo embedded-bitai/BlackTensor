@@ -4,6 +4,8 @@ import com.blacktensor.stockWeb.entity.Member;
 import com.blacktensor.stockWeb.entity.MyPage;
 import com.blacktensor.stockWeb.entity.TradeHistory;
 import com.blacktensor.stockWeb.entity.WishItem;
+import com.blacktensor.stockWeb.entity.enterpriseData.StockData;
+import com.blacktensor.stockWeb.entity.enterpriseData.StockInfo;
 
 public class ValidateUtil {
 
@@ -58,6 +60,42 @@ public class ValidateUtil {
 
         if(item != null && StringUtil.isNotEmptyString(item.getStockCode()) && StringUtil.isNotEmptyString(item.getStockName())
            && item.getMember() != null && StringUtil.isNotEmptyString(item.getMember().getApiId())){
+            result = true;
+        }
+
+        return result;
+    }
+
+    public static boolean validateStockDataInfo(StockData data){
+        boolean result = false;
+
+        if(data != null && StringUtil.isNotEmptyString(data.getStockCode()) && StringUtil.isNotEmptyString(data.getStockName())
+           && StringUtil.isNotEmptyString(data.getCurrentPrice()) && StringUtil.isNotEmptyString(data.getNetChange())
+           && StringUtil.isNotEmptyString(data.getFluctuation()) && StringUtil.isNotEmptyString(data.getVolumeValue())
+           && StringUtil.isNotEmptyString(data.getTradePrepare()) && StringUtil.isNotEmptyString(data.getStandardPrice())
+           && StringUtil.isNotEmptyString(data.getNetChangeSymbol()) && StringUtil.isNotEmptyString(data.getUpperPrice())
+           && StringUtil.isNotEmptyString(data.getLowerPrice()) && StringUtil.isNotEmptyString(data.getOpenPrice())
+           && StringUtil.isNotEmptyString(data.getHighPrice())){
+
+            result = true;
+
+        }
+
+        return result;
+    }
+
+    public static boolean validateStockInfo(StockInfo info){
+        boolean result = false;
+
+        if(info != null && StringUtil.isNotEmptyString(info.getStockCode()) && StringUtil.isNotEmptyString(info.getStockName())
+           && StringUtil.isNotEmptyString(info.getClosingMonth()) && StringUtil.isNotEmptyString(info.getParValue())
+           && StringUtil.isNotEmptyString(info.getCapital()) && StringUtil.isNotEmptyString(info.getListedStock())
+           && StringUtil.isNotEmptyString(info.getCreditRatio()) && StringUtil.isNotEmptyString(info.getBestYear())
+           && StringUtil.isNotEmptyString(info.getLowYear()) && StringUtil.isNotEmptyString(info.getMarketValue())
+           && StringUtil.isNotEmptyString(info.getPerValue()) && StringUtil.isNotEmptyString(info.getEpsValue())
+           && StringUtil.isNotEmptyString(info.getRoeValue()) && StringUtil.isNotEmptyString(info.getPbrValue())
+           && StringUtil.isNotEmptyString(info.getBpsValue()) && StringUtil.isNotEmptyString(info.getTake())
+           && StringUtil.isNotEmptyString(info.getNetIncome())){
             result = true;
         }
 
