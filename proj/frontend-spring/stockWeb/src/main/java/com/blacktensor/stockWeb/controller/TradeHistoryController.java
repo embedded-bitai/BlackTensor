@@ -12,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -79,7 +77,7 @@ public class TradeHistoryController {
 
         }catch (Exception e){
             log.info(e.getMessage());
-            return new ResponseEntity<List<TradeHistory>>(new ArrayList<TradeHistory>(), HttpStatus.OK);
+            return new ResponseEntity<List<TradeHistory>>(list, HttpStatus.OK);
         }
 
         return new ResponseEntity<List<TradeHistory>>(list, HttpStatus.BAD_REQUEST);
@@ -97,7 +95,7 @@ public class TradeHistoryController {
             }
         }catch (Exception e){
             log.info(e.getMessage());
-            return new ResponseEntity<List<TradeHistory>>(new ArrayList<TradeHistory>(), HttpStatus.OK);
+            return new ResponseEntity<List<TradeHistory>>(list, HttpStatus.OK);
         }
 
         return new ResponseEntity<List<TradeHistory>>(list, HttpStatus.BAD_REQUEST);
@@ -116,7 +114,7 @@ public class TradeHistoryController {
             }
         }catch (Exception e){
             log.info(e.getMessage());
-            return new ResponseEntity<List<TradeHistory>>(new ArrayList<TradeHistory>(), HttpStatus.OK);
+            return new ResponseEntity<List<TradeHistory>>(list, HttpStatus.OK);
         }
 
         return new ResponseEntity<List<TradeHistory>>(list, HttpStatus.BAD_REQUEST);
@@ -135,7 +133,7 @@ public class TradeHistoryController {
             }
         }catch (Exception e){
             log.info(e.getMessage());
-            return new ResponseEntity<List<TradeHistory>>(new ArrayList<TradeHistory>(), HttpStatus.OK);
+            return new ResponseEntity<List<TradeHistory>>(list, HttpStatus.OK);
         }
 
         return new ResponseEntity<List<TradeHistory>>(list, HttpStatus.BAD_REQUEST);
@@ -156,7 +154,7 @@ public class TradeHistoryController {
             }
         }catch (Exception e) {
             log.info(e.getMessage());
-            return new ResponseEntity<List<TradeHistory>>(new ArrayList<TradeHistory>(), HttpStatus.OK);
+            return new ResponseEntity<List<TradeHistory>>(list, HttpStatus.OK);
         }
 
         return new ResponseEntity<List<TradeHistory>>(list, HttpStatus.BAD_REQUEST);
@@ -178,7 +176,7 @@ public class TradeHistoryController {
 
         } catch (Exception e){
             log.info(e.getMessage());
-            return new ResponseEntity<List<TradeHistory>>(new ArrayList<TradeHistory>(), HttpStatus.OK);
+            return new ResponseEntity<List<TradeHistory>>(list, HttpStatus.OK);
         }
 
         return new ResponseEntity<List<TradeHistory>>(list, HttpStatus.BAD_REQUEST);
@@ -200,7 +198,7 @@ public class TradeHistoryController {
 
         }catch (Exception e){
             log.info(e.getMessage());
-            return new ResponseEntity<List<TradeHistory>>(new ArrayList<TradeHistory>(), HttpStatus.OK);
+            return new ResponseEntity<List<TradeHistory>>(list, HttpStatus.OK);
         }
 
         return new ResponseEntity<List<TradeHistory>>(list, HttpStatus.BAD_REQUEST);
@@ -219,7 +217,7 @@ public class TradeHistoryController {
             }
         }catch (Exception e){
             log.info(e.getMessage());
-            return new ResponseEntity<List<TradeHistory>>(new ArrayList<TradeHistory>(), HttpStatus.OK);
+            return new ResponseEntity<List<TradeHistory>>(list, HttpStatus.OK);
         }
 
         return new ResponseEntity<List<TradeHistory>>(list, HttpStatus.BAD_REQUEST);

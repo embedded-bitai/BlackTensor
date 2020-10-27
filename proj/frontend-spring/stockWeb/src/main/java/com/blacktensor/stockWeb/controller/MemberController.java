@@ -30,7 +30,7 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody HashMap<String, String> values){
 
-        String id = values.get("id");
+        String id = values.get("email");
         String password = values.get("password");
 
         log.debug("information - id : " + id + ", password : " + password);
@@ -90,13 +90,14 @@ public class MemberController {
 
         }catch (Exception e){
             log.debug(e.getMessage());
+            return new ResponseEntity<String>("This mail Search Fail", HttpStatus.OK);
         }
 
         return new ResponseEntity<String>("Check Request Id", HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping("/changeAppId")
-    public ResponseEntity<String> changeAppId(@RequestBody Map<String, String> data){
+    @PutMapping("/change/apiid")
+    public ResponseEntity<String> changeApiId(@RequestBody Map<String, String> data){
 
         String email = data.get("email");
         String apiId = data.get("apiId");
@@ -110,20 +111,20 @@ public class MemberController {
             }
         } catch (Exception e) {
             log.debug("Check Update AppId Info");
-            return new ResponseEntity<String>("Update ApiId Fail", HttpStatus.OK);
+            return new ResponseEntity<String>("Update Api Id Fail", HttpStatus.OK);
         }
 
-        return new ResponseEntity<String>("Check Update AppId Information", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<String>("Check Update Api Id Information", HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/find/{appid}")
-    public ResponseEntity<String> findAppId(@PathVariable String appid){
+    @GetMapping("/check/apiid/{apiid}")
+    public ResponseEntity<String> checkApiId(@PathVariable String apiid){
 
-        log.debug("information - appid : " + appid);
+        log.debug("information - appid : " + apiid);
 
         try{
-            if(StringUtil.isNotEmptyString(appid)){
-                if(service.findApiId(appid)){
+            if(StringUtil.isNotEmptyString(apiid)){
+                if(service.findApiId(apiid)){
                     return new ResponseEntity<String>("find Api Id OK", HttpStatus.OK);
                 }else{
                     return new ResponseEntity<String>("find Api Id Fail", HttpStatus.OK);
