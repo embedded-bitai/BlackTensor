@@ -3,9 +3,12 @@ package com.blacktensor.stockWeb.serviceImpl;
 import com.blacktensor.stockWeb.controller.MemberController;
 import com.blacktensor.stockWeb.entity.Member;
 import com.blacktensor.stockWeb.entity.MyPage;
+import com.blacktensor.stockWeb.mail.SendMail;
 import com.blacktensor.stockWeb.repository.MemberRepository;
 import com.blacktensor.stockWeb.repository.MyPageRepository;
 import com.blacktensor.stockWeb.service.MemberService;
+import com.blacktensor.stockWeb.util.AuthUtil;
+import com.blacktensor.stockWeb.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +29,32 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public boolean login(String id, String password) throws Exception {
-        return repo.findByEmailAndPassword(id, password).size() == 1;
+
+        List<Member> list = repo.findByEmail(id);
+        boolean result = false;
+
+        if(list.size() == 1){
+            Member member = list.get(0);
+            if(member.getPassword().equals(password) && member.isConfirm()){
+                result = true;
+            }
+        }
+
+        return result;
     }
 
     @Override
     public void signup(Member member) throws Exception {
-        repo.save(member);
+        String authKey = AuthUtil.getSignUpAuthKey(member.getEmail(), member.getApiId());
+        if(StringUtil.isNotEmptyString(authKey)){
+            boolean isSend = SendMail.getInstance().send("StockWeb 인증 메일", member.getEmail(), AuthUtil.getAuthUrl(member.getEmail(), authKey));
+            if(isSend){
+                member.setAuthKey(authKey);
+                repo.save(member);
+            }else{
+                throw new Exception("Mail Send Fail. mail : " + member.getEmail());
+            }
+        }
     }
 
     @Override
@@ -102,5 +125,34 @@ public class MemberServiceImpl implements MemberService {
                 pageRepo.save(mypage);
             }
         }
+    }
+
+    @Override
+    public boolean confirmUser(String mail, String authKey) throws Exception {
+        boolean result = false;
+
+        List<Member> list = repo.findByEmail(mail);
+
+        if(list.size() == 1){
+            Member member = list.get(0);
+            String mAuthKey = member.getAuthKey();
+            boolean isConfirm = member.isConfirm();
+
+            if(StringUtil.isNotEmptyString(mAuthKey) && !isConfirm){
+                if(authKey.equals(mAuthKey)){
+                    member.setAuthKey("");
+                    member.setConfirm(true);
+                    repo.save(member);
+                    result = true;
+                }
+            }else{
+                throw new Exception("is Bad Request or Expiration Request");
+            }
+
+        }else{
+            throw new Exception("is not exist mail");
+        }
+
+        return result;
     }
 }

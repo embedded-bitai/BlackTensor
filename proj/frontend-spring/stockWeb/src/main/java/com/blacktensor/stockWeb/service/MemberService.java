@@ -12,4 +12,5 @@ public interface MemberService {
     public Member getMemberInfo(String mail) throws Exception;
     public MyPage getMyPage(String mail) throws Exception;
     public void updateMyPageInfo(String mail, MyPage mypage) throws Exception;
+    public boolean confirmUser(String mail, String authKey) throws Exception;
 }

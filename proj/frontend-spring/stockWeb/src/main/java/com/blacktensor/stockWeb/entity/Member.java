@@ -26,4 +26,10 @@ public class Member {
 
     @Column(nullable = false)
     private String apiId;
+
+    @Column(nullable = false, length = 256)
+    private String authKey;
+
+    @Column(nullable = false, columnDefinition = "TINYINT(1) default 0")
+    private boolean isConfirm;
 }

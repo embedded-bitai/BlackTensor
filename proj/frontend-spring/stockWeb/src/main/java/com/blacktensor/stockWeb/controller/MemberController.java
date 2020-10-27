@@ -110,7 +110,7 @@ public class MemberController {
                 return new ResponseEntity<String>("Update ApiId OK", HttpStatus.OK);
             }
         } catch (Exception e) {
-            log.debug("Check Update AppId Info");
+            log.debug(e.getMessage());
             return new ResponseEntity<String>("Update Api Id Fail", HttpStatus.OK);
         }
 
@@ -131,7 +131,7 @@ public class MemberController {
                 }
             }
         } catch (Exception e) {
-            log.debug("Check AppId");
+            log.debug(e.getMessage());
             return new ResponseEntity<String>("find Api Id Fail", HttpStatus.OK);
         }
 
@@ -151,12 +151,13 @@ public class MemberController {
                 if(member != null){
                     member.setMemberNo(Long.valueOf(0));
                     member.setPassword("");
+                    member.setAuthKey("");
                 }
 
                 return new ResponseEntity<Member>(member, HttpStatus.OK);
             }
         } catch (Exception e){
-            log.debug("Check email");
+            log.debug(e.getMessage());
             return new ResponseEntity<Member>(member, HttpStatus.OK);
         }
 
@@ -182,7 +183,7 @@ public class MemberController {
             }
 
         } catch (Exception e){
-            log.debug("Check email");
+            log.debug(e.getMessage());
             return new ResponseEntity<MyPage>(pageInfo, HttpStatus.OK);
         }
 
@@ -199,10 +200,30 @@ public class MemberController {
                 return new ResponseEntity<String>("Update ok", HttpStatus.OK);
             }
         }catch (Exception e){
-            log.debug("Check email");
+            log.debug(e.getMessage());
             return new ResponseEntity<String>("Update Fail", HttpStatus.OK);
         }
 
         return new ResponseEntity<String>("check my page data", HttpStatus.OK);
+    }
+
+    @GetMapping("/auth/{mail}/{authKey}")
+    public ResponseEntity<String> confirmUser(@PathVariable String mail, @PathVariable String authKey){
+        log.debug("information - mail : " + mail + ", authKey : " + authKey);
+
+        if(RegexUtil.isEmail(mail) && StringUtil.isNotEmptyString(authKey)){
+            try {
+                if(service.confirmUser(mail, authKey)){
+                    return new ResponseEntity<String>("User Auth Success", HttpStatus.OK);
+                }else{
+                    return new ResponseEntity<String>("User Auth Fail", HttpStatus.OK);
+                }
+            } catch (Exception e){
+                log.debug(e.getMessage());
+                return new ResponseEntity<String>("User Auth Fail", HttpStatus.OK);
+            }
+        }
+
+        return new ResponseEntity<String>("is Bad Request", HttpStatus.BAD_REQUEST);
     }
 }
